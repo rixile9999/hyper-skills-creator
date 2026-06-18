@@ -8,6 +8,21 @@ and workflow. So instead of guessing, this plugin lets you describe what you
 want, searches the available pool, narrows it down *with you* through choices,
 and then adopts a skill as-is or personalizes it to fit.
 
+## Why this exists
+
+Coding agents move fast. Models, tools, and the harness around them change on a
+scale of weeks — and every change shifts what a good skill actually looks like.
+A skillset (harness) that was a perfect fit a few months ago can quietly stop
+fitting the present: it assumes a tool that's been replaced, leans on a workaround
+the model no longer needs, or misses a capability that just landed.
+
+That means a skillset isn't something you set up once and forget. To keep it
+effective you have to keep **updating and personalizing** it — pruning what's
+gone stale, pulling in what's new, and re-tuning the rest to your current stack
+and taste. This plugin is built for exactly that loop: not a one-time setup, but
+a recurring "is my skillset still the right fit?" pass you can run whenever the
+ground shifts under you.
+
 ## One entry skill + two sub-skills
 
 | Skill | Does | Triggers on |
