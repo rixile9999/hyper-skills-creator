@@ -6,7 +6,7 @@ entry skill that routes broad requests and composes two sub-skills.
 There's no single "best" skill — the effective set depends on your taste, level,
 and workflow. So instead of guessing, this plugin lets you describe what you
 want, searches the available pool, narrows it down *with you* through choices,
-and then adopts a skill as-is or personalizes it to fit.
+and then adopts a skill as-is or customizes it to fit.
 
 ## Why this exists
 
@@ -17,7 +17,7 @@ fitting the present: it assumes a tool that's been replaced, leans on a workarou
 the model no longer needs, or misses a capability that just landed.
 
 That means a skillset isn't something you set up once and forget. To keep it
-effective you have to keep **updating and personalizing** it — pruning what's
+effective you have to keep **updating and customizing** it — pruning what's
 gone stale, pulling in what's new, and re-tuning the rest to your current stack
 and taste. This plugin is built for exactly that loop: not a one-time setup, but
 a recurring "is my skillset still the right fit?" pass you can run whenever the
@@ -29,43 +29,50 @@ ground shifts under you.
 |-------|------|-------------|
 | **hyper-skills-creator** | the front door — route a vague request, then compose the two below end-to-end | "help me sort out my skills", "find a skill **and** make it mine", anything spanning both halves |
 | **finding-skills** | search the pool → narrow interactively → adopt/install | "is there a skill for X", "what should I use", "recommend a skill" |
-| **personalizing-skills** | tune a chosen skill → verify | "tune this skill to how I work", "customize for my stack" |
+| **customizing-skills** | tune a chosen skill → verify | "tune this skill to how I work", "customize for my stack" |
 
 They compose: the `hyper-skills-creator` entry skill takes an undifferentiated
 "help me with skills" request and routes it. `finding-skills` discovers and
-adopts; when the user wants tuning instead, it hands off to `personalizing-skills`.
+adopts; when the user wants tuning instead, it hands off to `customizing-skills`.
 Each sub-skill also triggers on its own, so an unambiguous ask skips the router
 and lands directly.
 
 ```
 hyper-skills-creator:  route ─┬─ discover ─▶ finding-skills
-                              ├─ tune ─────▶ personalizing-skills
-                              └─ both ─────▶ finding-skills ─▶ personalizing-skills
+                              ├─ tune ─────▶ customizing-skills
+                              └─ both ─────▶ finding-skills ─▶ customizing-skills
 
 finding-skills:  clarify intent → search pool → narrow interactively
-                   → adopt-as-is │ refine │ ──hand off──▶ personalizing-skills
+                   → adopt-as-is │ refine │ ──hand off──▶ customizing-skills
 
-personalizing-skills:  capture prefs → mode (fork│overlay│synthesize)
+customizing-skills:  capture prefs → mode (fork│overlay│synthesize)
                         → apply → verify (light│formal eval│none)
 ```
 
 - **Pool** = whatever surfaces candidates: the Claude marketplace (local catalog
   cache + live `claude plugin` CLI), web search for community skills, or
   candidates you bring in from another searcher (`skillless`, `find-skills`, …).
-  Search is a swappable input — the value is the narrowing + personalization.
-- **Personalize** = your choice of fork-&-edit · preference overlay · synthesize.
+  Search is a swappable input — the value is the narrowing + customization.
+- **Customize** = your choice of fork-&-edit · preference overlay · synthesize.
 - **Verify** = your choice of lightweight check · formal skill-creator eval · none.
 
 Every fork is a choice you make — the branching is the point.
 
 ## Use cases
 
-See [`EXAMPLES.md`](./EXAMPLES.md) for worked runs that go from search straight
-through the personalization flow — including a **"clarify the spec (architecture +
-principles), then build TDD"** skillset: `finding-skills` sources `grill-me`
-(community) + `test-driven-development` (marketplace), then hands off to
-`personalizing-skills` to wire them into a `spec-then-tdd` overlay tuned to a
-TypeScript/vitest user.
+See [`EXAMPLES.md`](./EXAMPLES.md) for two worked runs:
+
+- **Example 1 — build a skillset.** A **"clarify the spec (architecture +
+  principles), then build TDD"** flow: `finding-skills` sources `grill-me`
+  (community) + `test-driven-development` (marketplace), then hands off to
+  `customizing-skills` to wire them into a `spec-then-tdd` overlay tuned to a
+  TypeScript/vitest user.
+- **Example 2 — adopt as-is.** "Is there a good pre-commit code-review skill?" →
+  shortlist → pick one → install unchanged. No tuning, done in one step.
+
+Both runs **start from skills that already exist** — adapting or composing them,
+never authoring one from a blank page (that's `skill-creator`'s job, not this
+plugin's).
 
 ## Layout
 
@@ -80,10 +87,10 @@ hyper-skills-creator/
 │   │   ├── SKILL.md
 │   │   ├── scripts/search_catalog.py      # fast offline catalog ranking
 │   │   └── references/pool-and-search.md
-│   └── personalizing-skills/
+│   └── customizing-skills/
 │       ├── SKILL.md
 │       └── references/
-│           ├── personalize.md             # the three personalization modes
+│           ├── customize.md             # the three customization modes
 │           └── verify.md                  # the three verification modes
 └── README.md
 ```
@@ -106,7 +113,7 @@ skills dir:
 ```bash
 ln -sfn "$PWD/skills/hyper-skills-creator" ~/.claude/skills/hyper-skills-creator
 ln -sfn "$PWD/skills/finding-skills"       ~/.claude/skills/finding-skills
-ln -sfn "$PWD/skills/personalizing-skills" ~/.claude/skills/personalizing-skills
+ln -sfn "$PWD/skills/customizing-skills" ~/.claude/skills/customizing-skills
 ```
 
 Skills load at session start, so start a new `claude` session to pick them up.

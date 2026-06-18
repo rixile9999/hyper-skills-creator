@@ -1,6 +1,6 @@
 # Verification modes
 
-After adopt/personalize (Step 5), offer these three as a choice. The right level
+After adopt/customize (Step 5), offer these three as a choice. The right level
 is situational — a tiny overlay barely needs testing; a synthesized skill the
 user will lean on daily deserves a real eval.
 
@@ -29,7 +29,7 @@ provides the full machinery:
   evaluates ~20 should/shouldn't-trigger queries and proposes a better
   `description`, selected on a held-out split to avoid overfitting.
 
-Use when the user explicitly wants rigor, or when a personalized/synthesized
+Use when the user explicitly wants rigor, or when a customized/synthesized
 skill is going into heavy daily use. It's slower and needs subagents.
 
 ## Mode 3 — None

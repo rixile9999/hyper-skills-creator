@@ -6,7 +6,7 @@ This file is the detailed how-to behind Step 2 and the "adopt" branch of Step 4.
 commodity — the marketplace, the `/plugin` browser, and community searchers
 (`skillless`, `find-skills`, `skill-finder`, etc.) all do it, some over live
 directories. This skill's value is the narrowing and the hand-off to
-personalization, so get a shortlist by whatever path is cheapest and move on.
+customization, so get a shortlist by whatever path is cheapest and move on.
 The sources below are listed in order of "cheapest first," but any one is fine.
 
 ## 0. BYO candidates (preferred when the user already has some)
@@ -14,7 +14,7 @@ The sources below are listed in order of "cheapest first," but any one is fine.
 If the user already ran another discovery tool, or has names/URLs from a
 colleague or a blog post, take those as the shortlist directly — paste-in beats
 re-searching. We *consume* other searchers' output rather than racing them; the
-differentiated work starts at narrowing (Step 3) and personalization. Just
+differentiated work starts at narrowing (Step 3) and customization. Just
 capture name + source URL for each so the provenance check below still applies.
 
 ## 1. Local catalog cache (fast offline first pass)

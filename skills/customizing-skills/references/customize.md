@@ -1,6 +1,6 @@
-# Personalization modes
+# Customization modes
 
-This is the detail behind Step 2 of the `personalizing-skills` skill. Present
+This is the detail behind Step 2 of the `customizing-skills` skill. Present
 the three modes as a choice (`AskUserQuestion`) — the right one is situational.
 Below is how to execute each. Recommend a default based on what you saw: good
 base / wrong defaults → overlay; want deep changes → fork; pieces from several →

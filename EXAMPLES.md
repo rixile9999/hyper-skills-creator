@@ -14,8 +14,8 @@ skillset for that, tuned to my stack (TypeScript + vitest, concise commits)."*
 
 This is a **skillset** request — two skills working as a sequence with a written
 artifact in between — so it runs through both halves of the plugin:
-`finding-skills` to source the pieces, then `personalizing-skills` to wire them
-into a personalized set.
+`finding-skills` to source the pieces, then `customizing-skills` to wire them
+into a customized set.
 
 ### finding-skills
 
@@ -53,10 +53,10 @@ python3 skills/finding-skills/scripts/search_catalog.py "architecture spec desig
 
 User picks **grill-me + test-driven-development**.
 
-**Step 4 — Action.** Combining two skills into a tuned sequence = personalize.
+**Step 4 — Action.** Combining two skills into a tuned sequence = customize.
 
 > **AskUserQuestion — "이 둘을 어떻게 할까요?"**
-> - **개인화 (추천)**: 두 스킬을 채택하고, "스펙 명확화 → 문서화 → TDD" 순서로 엮는 스킬셋 구성. → `personalizing-skills`로 인계.
+> - **개인화 (추천)**: 두 스킬을 채택하고, "스펙 명확화 → 문서화 → TDD" 순서로 엮는 스킬셋 구성. → `customizing-skills`로 인계.
 > - 그대로 둘 다 설치: 순서·문서화 없이 각각.
 > - 더 찾아보기.
 
@@ -68,9 +68,9 @@ claude plugin install superpowers@claude-plugins-official      # if not already 
 git clone --depth 1 https://github.com/mattpocock/skills /tmp/mp-skills
 cp -r /tmp/mp-skills/skills/productivity/grill-me ~/.claude/skills/grill-me
 ```
-→ hand off to **personalizing-skills**.
+→ hand off to **customizing-skills**.
 
-### personalizing-skills
+### customizing-skills
 
 **Step 1 — Capture preferences.** From the request: TS, **vitest**, concise
 commits; spec must be **written to a doc** before coding; and TDD should run
@@ -86,7 +86,7 @@ feature at once. (Save as durable memory for future runs.)
 > - Synthesize new: 둘을 통째로 합친 단일 스킬 — 가장 무거움.
 
 User picks **overlay**. But the user also wants to change *how TDD itself runs*,
-so personalize the implementation phase too:
+so customize the implementation phase too:
 
 > **AskUserQuestion — "TDD는 어떤 단위로 진행할까요?"**
 > - **함수 단위 one-by-one — (추천)**: 함수마다 그 함수의 스펙(시그니처·계약·엣지케이스)을 먼저 픽스하고, 그 함수만 RED-GREEN-REFACTOR 한 뒤 다음으로. 스펙이 함수 경계에서 또렷해지고 리뷰가 작게 쪼개짐.
@@ -106,7 +106,7 @@ description: Use when starting any non-trivial feature, module, or service in th
   function.
 ---
 
-# Spec, then TDD (personalized workflow)
+# Spec, then TDD (customized workflow)
 
 Two phases. Do NOT write implementation code until Phase 1 is written down and
 signed off.
@@ -148,13 +148,13 @@ isolation, instead of one big half-understood feature.
 > - **Lightweight (추천)**: 트리거 문장 발사 — (1) "TS로 결제 모듈 새 서비스 설계부터 시작하자" → 발동, 스펙 단계부터 시작하고 구현은 함수 하나씩 진행해야 함; (2) "이 오타 한 줄만 고쳐줘" → 발동 안 해야 함(사소한 작업). 발동·순서·문서화·함수 단위 루프 확인.
 > - Formal skill-creator eval / None.
 
-Lightweight check passes → done. The user now has a personalized **skillset**:
+Lightweight check passes → done. The user now has a customized **skillset**:
 two upstream-maintained skills (`grill-me`, `test-driven-development`) plus a thin
 `spec-then-tdd` overlay that pins the spec and architecture, writes it down, and
 then drives a test-first build against it **function by function** — each
 function's spec clarified before its own RED test — all in their stack. Note that
-two layers of personalization happened here: the *overlay* sequences and documents
-the workflow, while the *function-by-function loop* personalizes how TDD itself
+two layers of customization happened here: the *overlay* sequences and documents
+the workflow, while the *function-by-function loop* customizes how TDD itself
 runs (kept scoped to this workflow; a fork of the base TDD skill would change it
 everywhere).
 
@@ -164,7 +164,7 @@ everywhere).
 
 ---
 
-## Example 2 — Adopt-as-is (no personalization)
+## Example 2 — Adopt-as-is (no customization)
 
 **User:** *"Is there a good skill for reviewing my code before I commit?"*
 
@@ -172,5 +172,5 @@ everywhere).
 (`coderabbit`, `superpowers:requesting-code-review`, official `code-review`).
 Present 2–3 as choices with install counts + token cost. User picks one →
 **adopt as-is** → `claude plugin install …` → quick trigger check. No hand-off to
-`personalizing-skills` because the defaults already fit. Done in one step — not
+`customizing-skills` because the defaults already fit. Done in one step — not
 every request needs tuning.

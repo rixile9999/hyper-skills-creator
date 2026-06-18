@@ -1,19 +1,19 @@
 ---
-name: personalizing-skills
+name: customizing-skills
 description: Use when the user has an existing Claude coding-agent skill or plugin and wants to adapt, tune, customize, personalize, or tailor it to their own stack, conventions, taste, or workflow — phrases like "tune this skill to how I work", "customize this skill for my React+Postgres setup", "make this skill match my style", "fork and edit this skill", or "combine the good parts of these skills into one". Receives hand-offs from finding-skills once a base skill is chosen.
 ---
 
-# Personalizing Skills
+# Customizing Skills
 
 ## Overview
 
 A chosen skill is rarely a perfect fit out of the box — its defaults assume some
 stack, some conventions, some level of rigor. This skill adapts an existing skill
-to the user, and verifies the result. It's the personalization half of
+to the user, and verifies the result. It's the customization half of
 `hyper-skills-creator`; it usually receives a hand-off from `finding-skills`, but
 also triggers directly when the user already has a skill in mind to tune.
 
-**Core principle:** the *mode* of personalization is situational, so let the user
+**Core principle:** the *mode* of customization is situational, so let the user
 pick — don't assume. The same goes for how rigorously to verify. Present real
 choices and recommend a default based on what you see.
 
@@ -42,7 +42,7 @@ obvious from the conversation, the hand-off, or the user's repo:
 
 Save durable, cross-project preferences to memory so future runs start from them.
 
-## Step 2 — Choose a personalization mode
+## Step 2 — Choose a customization mode
 
 Present these three as a choice (`AskUserQuestion`) — situational, so the user
 picks. Recommend a default from what you saw: good base / wrong defaults →
@@ -54,10 +54,10 @@ overlay; want deep changes → fork; pieces from several skills → synthesize.
 | **Preference overlay** | A thin companion skill or project `CLAUDE.md` notes layered on top | Non-destructive; survives upstream updates |
 | **Synthesize new** | One user-specific skill cherry-picked from several | Heaviest; a new skill to maintain |
 
-**Full instructions for each mode:** read `references/personalize.md`.
+**Full instructions for each mode:** read `references/customize.md`.
 
 Key safety rule for all modes: **never edit a skill in its install path** —
-plugin paths may be read-only and get overwritten on update. Personalize by
+plugin paths may be read-only and get overwritten on update. Customize by
 copying into `~/.claude/skills/`.
 
 ## Step 3 — Verify
@@ -88,7 +88,7 @@ preferences ──▶ mode choice ──┬── fork & edit ──── copy 
 ## Example
 
 For a worked overlay example — receiving the `grill-me` + `test-driven-development`
-hand-off from `finding-skills` and wiring them into a personalized `spec-then-tdd`
+hand-off from `finding-skills` and wiring them into a customized `spec-then-tdd`
 skillset (clarify spec + architecture → write it down → TDD) tuned to a
 TypeScript/vitest user — see `EXAMPLES.md` at the plugin root.
 
@@ -99,7 +99,7 @@ TypeScript/vitest user — see `EXAMPLES.md` at the plugin root.
 - **Editing an installed skill in place.** Read-only / overwritten on update.
   Copy to `~/.claude/skills/` first.
 - **Over-fitting to one example.** Bake in the user's *general* preferences, not
-  a single task's specifics, or the personalized skill won't generalize.
+  a single task's specifics, or the customized skill won't generalize.
 - **Skipping the why.** When editing a skill body, explain *why* a convention
   matters rather than adding rigid MUSTs — it generalizes better.
 - **Forgetting trigger collisions.** If both original and fork may be active,
