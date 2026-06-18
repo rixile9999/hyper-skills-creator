@@ -1,24 +1,32 @@
 # hyper-skills-creator
 
-An interactive **skill matchmaker** for coding agents, shipped as a plugin
-composed of two sub-skills.
+An interactive **skill matchmaker** for coding agents, shipped as a plugin: one
+entry skill that routes broad requests and composes two sub-skills.
 
 There's no single "best" skill — the effective set depends on your taste, level,
 and workflow. So instead of guessing, this plugin lets you describe what you
 want, searches the available pool, narrows it down *with you* through choices,
 and then adopts a skill as-is or personalizes it to fit.
 
-## Two sub-skills
+## One entry skill + two sub-skills
 
 | Skill | Does | Triggers on |
 |-------|------|-------------|
+| **hyper-skills-creator** | the front door — route a vague request, then compose the two below end-to-end | "help me sort out my skills", "find a skill **and** make it mine", anything spanning both halves |
 | **finding-skills** | search the pool → narrow interactively → adopt/install | "is there a skill for X", "what should I use", "recommend a skill" |
 | **personalizing-skills** | tune a chosen skill → verify | "tune this skill to how I work", "customize for my stack" |
 
-They compose: `finding-skills` discovers and adopts; when the user wants tuning
-instead, it hands off to `personalizing-skills`. Each also triggers on its own.
+They compose: the `hyper-skills-creator` entry skill takes an undifferentiated
+"help me with skills" request and routes it. `finding-skills` discovers and
+adopts; when the user wants tuning instead, it hands off to `personalizing-skills`.
+Each sub-skill also triggers on its own, so an unambiguous ask skips the router
+and lands directly.
 
 ```
+hyper-skills-creator:  route ─┬─ discover ─▶ finding-skills
+                              ├─ tune ─────▶ personalizing-skills
+                              └─ both ─────▶ finding-skills ─▶ personalizing-skills
+
 finding-skills:  clarify intent → search pool → narrow interactively
                    → adopt-as-is │ refine │ ──hand off──▶ personalizing-skills
 
@@ -49,6 +57,8 @@ hyper-skills-creator/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── skills/
+│   ├── hyper-skills-creator/
+│   │   └── SKILL.md                       # entry skill: route + compose the two below
 │   ├── finding-skills/
 │   │   ├── SKILL.md
 │   │   ├── scripts/search_catalog.py      # fast offline catalog ranking
@@ -66,17 +76,18 @@ hyper-skills-creator/
 **As a local plugin** (recommended once you publish to a marketplace) — see
 "Publishing to a marketplace" below.
 
-**For local use / development** — symlink the two skills into your personal
+**For local use / development** — symlink the three skills into your personal
 skills dir:
 
 ```bash
+ln -sfn "$PWD/skills/hyper-skills-creator" ~/.claude/skills/hyper-skills-creator
 ln -sfn "$PWD/skills/finding-skills"       ~/.claude/skills/finding-skills
 ln -sfn "$PWD/skills/personalizing-skills" ~/.claude/skills/personalizing-skills
 ```
 
 Skills load at session start, so start a new `claude` session to pick them up.
-Then just ask: *"Is there a skill for <X>?"* or *"find me a skill and tune it to
-how I work."*
+Then just ask: *"Help me sort out my skills"*, *"Is there a skill for <X>?"*, or
+*"find me a skill and tune it to how I work."*
 
 ## The search script
 

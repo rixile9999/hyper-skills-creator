@@ -1,7 +1,7 @@
 {
   "name": "hyper-skills-creator",
-  "description": "Interactive skill matchmaker for coding agents. Find an existing skill or plugin that fits the user's need, then adopt it as-is or personalize it to their taste, level, and workflow. Composed of two skills: finding-skills (search + narrow + adopt) and personalizing-skills (tune + verify).",
-  "version": "0.1.0",
+  "description": "Interactive skill matchmaker for coding agents. Find an existing skill or plugin that fits the user's need, then adopt it as-is or personalize it to their taste, level, and workflow. A hyper-skills-creator entry skill routes broad requests and composes two sub-skills: finding-skills (search + narrow + adopt) and personalizing-skills (tune + verify).",
+  "version": "0.2.0",
   "homepage": "https://github.com/rixile9999/hyper-skills-creator",
   "repository": "https://github.com/rixile9999/hyper-skills-creator",
   "license": "MIT",
