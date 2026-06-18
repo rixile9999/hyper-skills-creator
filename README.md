@@ -35,10 +35,12 @@ Every fork is a choice you make — the branching is the point.
 
 ## Use cases
 
-See [`EXAMPLES.md`](./EXAMPLES.md) for worked end-to-end runs, including building
-a personalized **"grill the plan, then build test-first"** skillset — sourcing
-`grill-me` (community) + `test-driven-development` (marketplace) and wiring them
-into a `grill-then-tdd` overlay tuned to a TypeScript/vitest user.
+See [`EXAMPLES.md`](./EXAMPLES.md) for worked runs that go from search straight
+through the personalization flow — including a **"clarify the spec (architecture +
+principles), then build TDD"** skillset: `finding-skills` sources `grill-me`
+(community) + `test-driven-development` (marketplace), then hands off to
+`personalizing-skills` to wire them into a `spec-then-tdd` overlay tuned to a
+TypeScript/vitest user.
 
 ## Layout
 

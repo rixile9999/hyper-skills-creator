@@ -87,9 +87,10 @@ preferences ──▶ mode choice ──┬── fork & edit ──── copy 
 
 ## Example
 
-For a worked overlay example — wiring `grill-me` + `test-driven-development` into
-a personalized `grill-then-tdd` skillset tuned to a TypeScript/vitest user — see
-`EXAMPLES.md` at the plugin root.
+For a worked overlay example — receiving the `grill-me` + `test-driven-development`
+hand-off from `finding-skills` and wiring them into a personalized `spec-then-tdd`
+skillset (clarify spec + architecture → write it down → TDD) tuned to a
+TypeScript/vitest user — see `EXAMPLES.md` at the plugin root.
 
 ## Common Mistakes
 
