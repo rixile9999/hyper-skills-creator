@@ -21,6 +21,11 @@ sub-skill** — then, when the journey continues, hand off again. The sub-skills
 already hand off to each other; this skill exists so a vague "help me with
 skills" lands somewhere sensible instead of falling between them.
 
+> **"creator" vs `skill-creator`:** this plugin *creates your personalized
+> skillset out of existing skills* (find → adopt → fork/overlay/synthesize),
+> whereas `skill-creator` authors a single new skill from a blank page. Reach for
+> `skill-creator` when there's nothing to start from.
+
 **The full pipeline:**
 
 ```

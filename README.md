@@ -49,8 +49,10 @@ personalizing-skills:  capture prefs → mode (fork│overlay│synthesize)
                         → apply → verify (light│formal eval│none)
 ```
 
-- **Pool** = the Claude marketplace (local catalog cache + live `claude plugin`
-  CLI) + web search for community skills.
+- **Pool** = whatever surfaces candidates: the Claude marketplace (local catalog
+  cache + live `claude plugin` CLI), web search for community skills, or
+  candidates you bring in from another searcher (`skillless`, `find-skills`, …).
+  Search is a swappable input — the value is the narrowing + personalization.
 - **Personalize** = your choice of fork-&-edit · preference overlay · synthesize.
 - **Verify** = your choice of lightweight check · formal skill-creator eval · none.
 

@@ -1,9 +1,23 @@
 # Candidate pool & search mechanics
 
-The pool hyper-skills searches is **the Claude marketplace + web search**. This
-file is the detailed how-to behind Step 2 and the "adopt" branch of Step 4.
+This file is the detailed how-to behind Step 2 and the "adopt" branch of Step 4.
 
-## 1. Local catalog cache (default, offline)
+**Search is a swappable input layer, not the product.** Raw retrieval is a
+commodity — the marketplace, the `/plugin` browser, and community searchers
+(`skillless`, `find-skills`, `skill-finder`, etc.) all do it, some over live
+directories. This skill's value is the narrowing and the hand-off to
+personalization, so get a shortlist by whatever path is cheapest and move on.
+The sources below are listed in order of "cheapest first," but any one is fine.
+
+## 0. BYO candidates (preferred when the user already has some)
+
+If the user already ran another discovery tool, or has names/URLs from a
+colleague or a blog post, take those as the shortlist directly — paste-in beats
+re-searching. We *consume* other searchers' output rather than racing them; the
+differentiated work starts at narrowing (Step 3) and personalization. Just
+capture name + source URL for each so the provenance check below still applies.
+
+## 1. Local catalog cache (fast offline first pass)
 
 Claude Code keeps a catalog cache on disk. The bundled script reads it directly:
 

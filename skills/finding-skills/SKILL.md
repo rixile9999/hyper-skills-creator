@@ -18,9 +18,11 @@ them* through interactive choices, and land on a skill to adopt.
 best" skill. Surface real candidates with honest trade-offs and let the user
 steer at each fork. The branching *is* the product.
 
-**The loop:** `Clarify intent → Search the pool → Narrow interactively →
-Adopt / refine / hand off`. Loop back any time — narrowing too far with nothing
-good means widening the search.
+**The loop:** `Clarify intent → Gather candidates → Narrow interactively →
+Adopt / refine / hand off`. Candidates come from any source (including ones the
+user brings in) — getting them is the cheap part; the narrowing and hand-off are
+the value. Loop back any time — narrowing too far with nothing good means
+widening the pool.
 
 This is the discovery half of `hyper-skills-creator`. When the chosen skill is a
 good base but needs tuning, **hand off to the `personalizing-skills` skill**.
@@ -54,12 +56,26 @@ Ask only what you need *to search well* — one question is usually enough here.
 The real narrowing happens at Step 3 once there are concrete candidates on the
 table, so don't front-load every decision.
 
-## Step 2 — Search the pool
+## Step 2 — Get candidates on the table
 
-The candidate pool is **the Claude marketplace + web search**. Search in this
-order, stopping as soon as you have a strong shortlist:
+Raw retrieval is a commodity — the marketplace, the official `/plugin` browser,
+and several community searchers all do it, some over live directories. **Don't
+compete on search.** This skill's value is the *interactive narrowing and the
+hand-off to personalization* (Steps 3–4), so treat search as a thin, swappable
+input layer: get a decent shortlist by whatever path is cheapest, then move on.
 
-1. **Local catalog (fast, offline first pass).** Run the bundled script:
+Candidates can come from **any** of these — use the first that yields a strong
+shortlist, and freely accept results the user already gathered elsewhere:
+
+1. **BYO candidates (preferred when available).** If the user already ran another
+   discovery tool (`skillless`, `find-skills`, the `/plugin` browser, a list a
+   colleague sent), have them paste the names/URLs. Take those as the shortlist
+   directly — no reason to re-search. We consume other searchers' output rather
+   than racing them.
+
+2. **Local catalog (fast offline first pass).** When there's nothing to BYO, the
+   bundled script is the cheapest first look — instant, offline, covers 200+
+   plugins:
    ```bash
    python3 scripts/search_catalog.py "<query terms>" --limit 12
    python3 scripts/search_catalog.py "<query>" --skills-only   # rank skills, not plugins
@@ -67,21 +83,18 @@ order, stopping as soon as you have a strong shortlist:
    ```
    It ranks the on-disk catalog cache by relevance + popularity, marks what's
    already `[installed]`/`[forked]`, and reports install counts and token cost.
-   This is your default — it's instant and covers 200+ plugins.
-
    *Watch for cross-domain noise:* scoring matches query terms anywhere, so a
    generic word like "test" can surface security/compliance plugins. Sanity-check
-   that the `matched skills` are actually on-topic, and add `--category` to cut a
-   noisy field (e.g. `--category development`) before trusting the ranking.
+   the `matched skills` are on-topic, and add `--category` to cut a noisy field.
+   It's a cache, so it goes stale — confirm anything important against a live
+   source (below) before recommending strongly.
 
-2. **Live marketplace (freshness / confirmation).** Refresh when the cache is
-   clearly stale (its printed `fetchedAt` is more than ~2 weeks old) or when the
-   user expects something newer than that; otherwise the cache is fine. Refresh
-   and re-search via the `claude plugin` CLI.
-
-3. **Web search (breadth / community skills).** When the marketplace has no good
-   fit, use `WebSearch`/`WebFetch` for GitHub and community skills. Treat these
-   as *unverified* — flag provenance and skim the source before recommending.
+3. **Live sources (freshness / breadth).** When the cache is stale (its printed
+   `fetchedAt` is more than ~2 weeks old), thin, or the user expects something
+   newer: refresh and query live via the `claude plugin` CLI, and widen to
+   community directories and GitHub with `WebSearch`/`WebFetch`. Treat web/
+   community results as *unverified* — flag provenance and skim the source before
+   recommending.
 
 **Full pool & search mechanics:** read `references/pool-and-search.md`.
 
@@ -134,13 +147,14 @@ any stack/preference cues the user already gave.
 ## Quick Reference
 
 ```
-intent ──▶ search_catalog.py ──▶ [shortlist] ──▶ AskUserQuestion (narrow)
-   ▲            │ thin/stale?            │                 │
-   └── widen ◀──┴── live CLI / web ◀─────┘          chosen candidate
-                                                          │
+        BYO candidates ──┐
+intent ─ local catalog ──┼─▶ [shortlist] ──▶ AskUserQuestion (narrow)
+   ▲     live CLI / web ──┘        │                   │
+   └── widen ◀────────────────────┘            chosen candidate
+                                                       │
                             ┌── adopt ──────── install / copy to ~/.claude/skills
         action choice ──────┼── personalize ── → personalizing-skills
-                            └── refine ─────── back to search
+                            └── refine ─────── back to candidates
 ```
 
 ## Example
