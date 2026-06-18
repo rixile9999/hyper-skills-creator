@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "hyoseok-skills",
-  "description": "Personal marketplace for hyoseok's Claude Code plugins.",
+  "name": "hyper-skills",
+  "description": "Marketplace for the hyper-skills Claude Code plugins.",
   "owner": {
     "name": "hyoseok",
     "email": "rixile@ust.ac.kr"
