@@ -1,0 +1,17 @@
+{
+  "name": "hyper-skills-creator",
+  "description": "Interactive skill matchmaker for coding agents. Find an existing skill or plugin that fits the user's need, then adopt it as-is or personalize it to their taste, level, and workflow. Composed of two skills: finding-skills (search + narrow + adopt) and personalizing-skills (tune + verify).",
+  "version": "0.1.0",
+  "author": {
+    "name": "hyoseok",
+    "email": "rixile@ust.ac.kr"
+  },
+  "keywords": [
+    "skills",
+    "discovery",
+    "recommendation",
+    "personalization",
+    "marketplace",
+    "matchmaker"
+  ]
+}
