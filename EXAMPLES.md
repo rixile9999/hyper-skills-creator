@@ -73,8 +73,10 @@ cp -r /tmp/mp-skills/skills/productivity/grill-me ~/.claude/skills/grill-me
 ### personalizing-skills
 
 **Step 1 — Capture preferences.** From the request: TS, **vitest**, concise
-commits; spec must be **written to a doc** before coding. (Save as durable memory
-for future runs.)
+commits; spec must be **written to a doc** before coding; and TDD should run
+**function-by-function** — clarify each function's own spec (signature, contract,
+edge cases) before writing its failing test, rather than test-driving a whole
+feature at once. (Save as durable memory for future runs.)
 
 **Step 2 — Choose a mode.**
 
@@ -83,7 +85,16 @@ for future runs.)
 > - Fork & edit: TDD 스킬 본문을 복사해 vitest·아키텍처 가드 예시를 깊게 박음 — 더 무겁고 업스트림을 잃음.
 > - Synthesize new: 둘을 통째로 합친 단일 스킬 — 가장 무거움.
 
-User picks **overlay**. Create the companion skill (the "skillset" glue):
+User picks **overlay**. But the user also wants to change *how TDD itself runs*,
+so personalize the implementation phase too:
+
+> **AskUserQuestion — "TDD는 어떤 단위로 진행할까요?"**
+> - **함수 단위 one-by-one — (추천)**: 함수마다 그 함수의 스펙(시그니처·계약·엣지케이스)을 먼저 픽스하고, 그 함수만 RED-GREEN-REFACTOR 한 뒤 다음으로. 스펙이 함수 경계에서 또렷해지고 리뷰가 작게 쪼개짐.
+> - 기능(feature) 단위: 기능 전체를 한 번에 test-drive — 기본 TDD 방식.
+> - 베이스 TDD 스킬을 전역으로 바꾸고 싶다면: overlay 대신 `superpowers:test-driven-development`를 **fork & edit**하는 길도 있음(이 프로젝트뿐 아니라 모든 곳에 적용).
+
+User picks **함수 단위 one-by-one** within the overlay (scoped to this workflow,
+base TDD skill left intact). Create the companion skill (the "skillset" glue):
 
 ```markdown
 ---
@@ -91,7 +102,8 @@ name: spec-then-tdd
 description: Use when starting any non-trivial feature, module, or service in this
   user's TypeScript projects — before writing implementation code. Clarifies the
   spec (including architecture and the architectural principles to uphold),
-  records it to a doc, then drives a test-first build against it.
+  records it to a doc, then drives a test-first build against it, function by
+  function.
 ---
 
 # Spec, then TDD (personalized workflow)
@@ -107,28 +119,44 @@ signed off.
      layering rules, separation of concerns, error-handling and testing strategy.
    Write the outcome to a short spec doc (`docs/spec-<feature>.md` or an ADR) so
    Phase 2 builds against something concrete, not memory.
-2. **Build test-first against the spec.** Use
-   `superpowers:test-driven-development` (RED-GREEN-REFACTOR). Each test asserts a
-   behavior from the spec; where a principle is checkable (e.g. a lower layer must
-   not import an upper one), add a test or lint rule that guards it. This user's
-   conventions: tests in **vitest** (`describe/it`, `expect().toBe`, `vi.mock`),
-   **concise** commits (imperative, ~50-char subject).
+2. **Build test-first against the spec — one function at a time.** Drive
+   `superpowers:test-driven-development` (RED-GREEN-REFACTOR), but do NOT
+   test-drive the whole feature at once. Work through the units from the Phase 1
+   spec in dependency order, and for **each function** complete this loop before
+   moving on:
+   a. **Clarify that function's spec** — its name, signature, input/output
+      contract, error cases, and invariants — derived from the spec doc. Pin it
+      before touching tests; if the spec doc is silent, resolve it now and append.
+   b. **RED** — write one failing **vitest** test asserting that contract; run it,
+      watch it fail.
+   c. **GREEN** — implement the minimum to pass.
+   d. **REFACTOR** — clean up while green. Commit (concise, imperative subject) —
+      one small commit per function is fine.
+   e. Only then move to the next function.
+   Where an architectural principle is checkable (e.g. a lower layer must not
+   import an upper one), add a test or lint rule that guards it.
 
-Why pair them: pinning the architecture and its principles first means the TDD
-tests assert the *intended* design, and the principles become executable guards
-rather than aspirations.
+Why this shape: pinning the architecture and its principles first (Phase 1) means
+the tests assert the *intended* design; clarifying each function's spec at its own
+boundary (Phase 2) keeps every RED test precise and every change reviewable in
+isolation, instead of one big half-understood feature.
 ```
 
 **Step 3 — Verify.**
 
 > **AskUserQuestion — "검증은?"**
-> - **Lightweight (추천)**: 트리거 문장 발사 — (1) "TS로 결제 모듈 새 서비스 설계부터 시작하자" → 발동, 스펙 단계부터 시작해야 함; (2) "이 오타 한 줄만 고쳐줘" → 발동 안 해야 함(사소한 작업). 발동·순서·문서화 확인.
+> - **Lightweight (추천)**: 트리거 문장 발사 — (1) "TS로 결제 모듈 새 서비스 설계부터 시작하자" → 발동, 스펙 단계부터 시작하고 구현은 함수 하나씩 진행해야 함; (2) "이 오타 한 줄만 고쳐줘" → 발동 안 해야 함(사소한 작업). 발동·순서·문서화·함수 단위 루프 확인.
 > - Formal skill-creator eval / None.
 
 Lightweight check passes → done. The user now has a personalized **skillset**:
 two upstream-maintained skills (`grill-me`, `test-driven-development`) plus a thin
 `spec-then-tdd` overlay that pins the spec and architecture, writes it down, and
-then drives a test-first build against it in their stack.
+then drives a test-first build against it **function by function** — each
+function's spec clarified before its own RED test — all in their stack. Note that
+two layers of personalization happened here: the *overlay* sequences and documents
+the workflow, while the *function-by-function loop* personalizes how TDD itself
+runs (kept scoped to this workflow; a fork of the base TDD skill would change it
+everywhere).
 
 **Sources:** [mattpocock/skills (grill-me)](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) ·
 [Matt Pocock — "My 'Grill Me' Skill Went Viral"](https://www.aihero.dev/my-grill-me-skill-has-gone-viral) ·
