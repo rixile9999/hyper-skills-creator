@@ -88,8 +88,15 @@ hyper-skills-creator/
 
 ## Install
 
-**As a local plugin** (recommended once you publish to a marketplace) — see
-"Publishing to a marketplace" below.
+**As a plugin from this marketplace** (recommended) — this repo *is* a
+marketplace, so point Claude at it and install:
+
+```bash
+claude plugin marketplace add rixile9999/hyper-skills-creator
+claude plugin install hyper-skills-creator
+```
+
+See "Publishing to a marketplace" below for how this is wired up.
 
 **For local use / development** — symlink the three skills into your personal
 skills dir:
