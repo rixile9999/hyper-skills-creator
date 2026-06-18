@@ -143,6 +143,13 @@ intent ──▶ search_catalog.py ──▶ [shortlist] ──▶ AskUserQuesti
                             └── refine ─────── back to search
 ```
 
+## Example
+
+For a full end-to-end run — sourcing `grill-me` (community, via web search) and
+`test-driven-development` (marketplace) for a "grill the plan, then build
+test-first" skillset, and a one-step adopt-as-is case — see `EXAMPLES.md` at the
+plugin root.
+
 ## Common Mistakes
 
 - **Auto-picking the top result.** Defeats the purpose. Always present choices;

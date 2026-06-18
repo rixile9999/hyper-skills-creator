@@ -85,6 +85,12 @@ preferences ──▶ mode choice ──┬── fork & edit ──── copy 
                           verify choice ── light │ formal eval │ none
 ```
 
+## Example
+
+For a worked overlay example — wiring `grill-me` + `test-driven-development` into
+a personalized `grill-then-tdd` skillset tuned to a TypeScript/vitest user — see
+`EXAMPLES.md` at the plugin root.
+
 ## Common Mistakes
 
 - **Assuming the mode.** The user picks fork vs overlay vs synthesize — it's a

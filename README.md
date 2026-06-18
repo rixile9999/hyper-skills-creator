@@ -33,6 +33,13 @@ personalizing-skills:  capture prefs → mode (fork│overlay│synthesize)
 
 Every fork is a choice you make — the branching is the point.
 
+## Use cases
+
+See [`EXAMPLES.md`](./EXAMPLES.md) for worked end-to-end runs, including building
+a personalized **"grill the plan, then build test-first"** skillset — sourcing
+`grill-me` (community) + `test-driven-development` (marketplace) and wiring them
+into a `grill-then-tdd` overlay tuned to a TypeScript/vitest user.
+
 ## Layout
 
 ```
