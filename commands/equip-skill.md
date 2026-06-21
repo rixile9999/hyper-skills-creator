@@ -1,10 +1,10 @@
 ---
-description: Mid-task, pull in a specialized skill for what you're working on — check what's installed, propose a fit, then find/adopt and resume.
+description: Mid-task, equip a specialized skill for what you're working on — check what's installed, propose a fit, then find/adopt and resume.
 argument-hint: [task or capability you need a skill for]
 ---
 
-You are being invoked explicitly to **bootstrap a skill** for the work currently
-in progress. Follow the `bootstrapping-skills` skill, but skip the "should I
+You are being invoked explicitly to **equip a skill** for the work currently
+in progress. Follow the `equipping-skills` skill, but skip the "should I
 propose?" hesitation — the user asked for this directly.
 
 Context for what they need a skill for: $ARGUMENTS

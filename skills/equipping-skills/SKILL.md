@@ -1,9 +1,9 @@
 ---
-name: bootstrapping-skills
-description: Use this DURING an ordinary planning or implementation task — NOT when the user asked about skills — at the moment you notice the work would go meaningfully better with a specialized skill you don't currently have. Triggers on your own mid-task realization: you're about to hand-roll a workflow that a dedicated skill exists for, you're repeating a specialized procedure (framework migration, a test strategy, a release flow, a domain like a11y/security/perf audits), or planning surfaces a capability gap. Propose pulling in a skill, confirm with the user, then hand off to finding-skills — and resume the original task afterward.
+name: equipping-skills
+description: Use this DURING an ordinary planning or implementation task — NOT when the user asked about skills — at the moment you notice the work would go meaningfully better with a specialized skill you don't currently have. Triggers on your own mid-task realization: you're about to hand-roll a workflow that a dedicated skill exists for, you're repeating a specialized procedure (framework migration, a test strategy, a release flow, a domain like a11y/security/perf audits), or planning surfaces a capability gap. Propose equipping a skill, confirm with the user, then hand off to finding-skills — and resume the original task afterward.
 ---
 
-# Bootstrapping Skills
+# Equipping Skills
 
 ## Overview
 
@@ -13,7 +13,7 @@ You're planning or implementing some task the user actually came for, and you
 notice — *this would go better with a specialized skill I don't have.* That gap
 is the trigger. The user never said "find me a skill"; you inferred the need.
 
-This is the **bootstrap** path: detect the gap → propose lightly → on a yes, hand
+This is the **equip** path: detect the gap → propose lightly → on a yes, hand
 off to `finding-skills` to search/adopt (and `customizing-skills` to tune) →
 **then come back and finish the original task** with the new skill in hand.
 
@@ -42,7 +42,7 @@ Fire this when **all** of these hold:
   (discovery) or `customizing-skills` (tuning) or the `hyper-skills-creator`
   router. Don't add a hop.
 - The task is a one-off or trivial enough that hand-rolling it now is clearly
-  faster than finding, vetting, and adopting a skill. The bootstrap has a cost;
+  faster than finding, vetting, and adopting a skill. Equipping has a cost;
   only pay it when the gap is real and likely to recur.
 - A capable installed skill already exists — just use it.
 
@@ -99,8 +99,8 @@ skill — but carry the context so they don't re-explain:
    skill mid-session, it may not be active until they restart `claude`. Say so,
    and offer to apply its *approach* manually for the current task in the
    meantime.
-2. **Return to the original task.** This is the part that's easy to forget: the
-   bootstrap was a detour, not the destination. Pick the task back up — now
+2. **Return to the original task.** This is the part that's easy to forget:
+   equipping was a detour, not the destination. Pick the task back up — now
    informed by (or using) the skill — and finish what the user actually came for.
 
 ## Quick Reference
@@ -126,11 +126,11 @@ mid-task realization: "a specialized skill would help here"
 - **Derailing the task.** The user came for the feature, not a skill hunt. Propose
   in one line and default to continuing. Never silently switch into shopping mode.
 - **Over-proposing.** Firing on trivial or one-off work is noise. Only when the
-  gap is specialized/recurring *and* uncovered does the bootstrap earn its cost.
+  gap is specialized/recurring *and* uncovered does equipping earn its cost.
 - **Skipping the installed check.** Proposing a skill the user already has reads
   as not paying attention. Always do Step 1 first.
-- **Forgetting to come back.** After adoption, resume the original task — the
-  bootstrap is a means, not the end. Leaving the user in the skill flow with their
+- **Forgetting to come back.** After adoption, resume the original task —
+  equipping is a means, not the end. Leaving the user in the skill flow with their
   actual work unfinished is the worst outcome.
 - **Reinventing search/tuning here.** This skill only detects the gap and hands
   off. Discovery lives in `finding-skills`, tuning in `customizing-skills`.

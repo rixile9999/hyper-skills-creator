@@ -21,11 +21,11 @@ sub-skill** — then, when the journey continues, hand off again. The sub-skills
 already hand off to each other; this skill exists so a vague "help me with
 skills" lands somewhere sensible instead of falling between them.
 
-> **A third, self-triggered path:** `bootstrapping-skills` is *not* routed from
+> **A third, self-triggered path:** `equipping-skills` is *not* routed from
 > here — it fires on its own when, mid-task on something else, you realize a
 > specialized skill would help. It then feeds into the same `finding-skills` →
 > `customizing-skills` pipeline. This router is for *user-initiated* skill
-> requests; the bootstrap path is for *agent-initiated* ones.
+> requests; the equip path is for *agent-initiated* ones.
 
 > **"creator" vs `skill-creator`:** this plugin *creates your customized
 > skillset out of existing skills* (find → adopt → fork/overlay/synthesize),

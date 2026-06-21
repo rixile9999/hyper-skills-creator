@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "hyper-skills-creator",
-      "description": "Interactive skill matchmaker for coding agents: find an existing skill or plugin that fits the user's need, then adopt it as-is or customize it to their taste, level, and workflow. A hyper-skills-creator entry skill routes broad requests and composes finding-skills (search + narrow + adopt) and customizing-skills (tune + verify); bootstrapping-skills adds a self-triggered path that spots a skill gap mid-task and pulls one in.",
+      "description": "Interactive skill matchmaker for coding agents: find an existing skill or plugin that fits the user's need, then adopt it as-is or customize it to their taste, level, and workflow. A hyper-skills-creator entry skill routes broad requests and composes finding-skills (search + narrow + adopt) and customizing-skills (tune + verify); equipping-skills adds a self-triggered path that spots a skill gap mid-task and equips one.",
       "author": {
         "name": "hyoseok",
         "email": "rixile@ust.ac.kr"

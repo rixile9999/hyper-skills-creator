@@ -30,7 +30,7 @@ ground shifts under you.
 | **hyper-skills-creator** | the front door — route a vague request, then compose the sub-skills end-to-end | "help me sort out my skills", "find a skill **and** make it mine", anything spanning both halves |
 | **finding-skills** | search the pool → narrow interactively → adopt/install | "is there a skill for X", "what should I use", "recommend a skill" |
 | **customizing-skills** | tune a chosen skill → verify | "tune this skill to how I work", "customize for my stack" |
-| **bootstrapping-skills** | *self-triggered* mid-task — spot a skill gap, propose, hand off to finding-skills, resume | your own realization while building something else; or the `/bootstrap-skill` command |
+| **equipping-skills** | *self-triggered* mid-task — spot a skill gap, propose, hand off to finding-skills, resume | your own realization while building something else; or the `/equip-skill` command |
 
 The first three compose around **user-initiated** requests: the
 `hyper-skills-creator` entry skill takes an undifferentiated "help me with skills"
@@ -38,21 +38,21 @@ request and routes it. `finding-skills` discovers and adopts; when the user want
 tuning instead, it hands off to `customizing-skills`. Each triggers on its own,
 so an unambiguous ask skips the router and lands directly.
 
-`bootstrapping-skills` is the **agent-initiated** path. It isn't routed from the
+`equipping-skills` is the **agent-initiated** path. It isn't routed from the
 front door — it fires when *you*, mid-way through some other task (planning, a
 refactor, a migration), realize a specialized skill would help. It proposes the
 gap in one line, and on a yes feeds into the same `finding-skills` →
 `customizing-skills` pipeline, then returns you to the original task. Invoke it
-explicitly with **`/bootstrap-skill [what you need]`**.
+explicitly with **`/equip-skill [what you need]`**.
 
-> **Making the bootstrap fire more reliably (optional, your call).** Because this
+> **Making the equip path fire more reliably (optional, your call).** Because this
 > path is agent-initiated, it depends on the model noticing the gap on its own —
 > less certain than a user request. The plugin deliberately ships **no hook** for
 > this: whether to nudge every turn is a trade-off (more reliable triggering vs.
 > a little extra context cost each prompt), so it's left to you. If you want the
 > nudge, add your own `UserPromptSubmit` or `SessionStart` hook in
-> `~/.claude/settings.json` that reminds the agent to consider `bootstrapping-skills`
-> when a task looks specialized. Otherwise, `/bootstrap-skill` is always there as
+> `~/.claude/settings.json` that reminds the agent to consider `equipping-skills`
+> when a task looks specialized. Otherwise, `/equip-skill` is always there as
 > the explicit trigger.
 
 ```
@@ -60,7 +60,7 @@ hyper-skills-creator:  route ─┬─ discover ─▶ finding-skills
    (user-initiated)           ├─ tune ─────▶ customizing-skills
                               └─ both ─────▶ finding-skills ─▶ customizing-skills
 
-bootstrapping-skills:  mid-task gap → propose (one line) → on yes ─┐
+equipping-skills:      mid-task gap → propose (one line) → on yes ─┐
    (agent-initiated)         ▲                                     │
                              └────── resume original task ◀──── finding-skills ─▶ …
 
@@ -103,7 +103,7 @@ hyper-skills-creator/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── commands/
-│   └── bootstrap-skill.md                  # explicit trigger for the bootstrap path
+│   └── equip-skill.md                      # explicit trigger for the equip path
 ├── skills/
 │   ├── hyper-skills-creator/
 │   │   └── SKILL.md                       # entry skill: route + compose the sub-skills
@@ -116,7 +116,7 @@ hyper-skills-creator/
 │   │   └── references/
 │   │       ├── customize.md             # the three customization modes
 │   │       └── verify.md                  # the three verification modes
-│   └── bootstrapping-skills/
+│   └── equipping-skills/
 │       └── SKILL.md                       # self-triggered mid-task gap → finding-skills
 └── README.md
 ```
@@ -140,11 +140,11 @@ dir:
 ln -sfn "$PWD/skills/hyper-skills-creator" ~/.claude/skills/hyper-skills-creator
 ln -sfn "$PWD/skills/finding-skills"       ~/.claude/skills/finding-skills
 ln -sfn "$PWD/skills/customizing-skills"   ~/.claude/skills/customizing-skills
-ln -sfn "$PWD/skills/bootstrapping-skills" ~/.claude/skills/bootstrapping-skills
+ln -sfn "$PWD/skills/equipping-skills"     ~/.claude/skills/equipping-skills
 ```
 
-(The `/bootstrap-skill` command ships only with the installed plugin; symlinked
-skills still trigger the bootstrap path on their own.)
+(The `/equip-skill` command ships only with the installed plugin; symlinked
+skills still trigger the equip path on their own.)
 
 Skills load at session start, so start a new `claude` session to pick them up.
 Then just ask: *"Help me sort out my skills"*, *"Is there a skill for <X>?"*, or
