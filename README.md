@@ -1,7 +1,16 @@
 # hyper-skills-creator
 
 An interactive **skill matchmaker** for coding agents, shipped as a plugin: one
-entry skill that routes broad requests and composes two sub-skills.
+entry skill that routes broad requests and composes three sub-skills.
+
+> **Agents move faster than any harness you can hand-build for them.** Models,
+> tools, and the harness itself shift on a scale of weeks. Pour months into an
+> elaborate, bespoke skillset and you've built something too heavy to move at
+> that pace — stale the moment the ground shifts under it. Keeping up isn't about
+> engineering a *bigger* harness; it's about making your skillset **light and
+> fast to update** — quick enough to track how fast the agents themselves change.
+> That's the whole bet of this plugin: find, adopt, tune, and prune skills in
+> minutes, instead of re-engineering a heavy harness from scratch every time.
 
 There's no single "best" skill — the effective set depends on your taste, level,
 and workflow. So instead of guessing, this plugin lets you describe what you
@@ -10,11 +19,11 @@ and then adopts a skill as-is or customizes it to fit.
 
 ## Why this exists
 
-Coding agents move fast. Models, tools, and the harness around them change on a
-scale of weeks — and every change shifts what a good skill actually looks like.
-A skillset (harness) that was a perfect fit a few months ago can quietly stop
-fitting the present: it assumes a tool that's been replaced, leans on a workaround
-the model no longer needs, or misses a capability that just landed.
+Concretely, here's the churn at work. Every change to a model, tool, or harness
+shifts what a good skill actually looks like — so a skillset that was a perfect
+fit a few months ago can quietly stop fitting the present: it assumes a tool
+that's been replaced, leans on a workaround the model no longer needs, or misses
+a capability that just landed.
 
 That means a skillset isn't something you set up once and forget. To keep it
 effective you have to keep **updating and customizing** it — pruning what's
