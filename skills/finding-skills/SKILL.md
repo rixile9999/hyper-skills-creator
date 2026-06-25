@@ -1,6 +1,6 @@
 ---
 name: finding-skills
-description: Use when the user wants to find, discover, choose, compare, recommend, adopt, or install a Claude coding-agent skill or plugin but isn't sure which one fits — phrases like "is there a skill for X", "what skill should I use", "find me a skill/plugin", "recommend a skill for my workflow", "I have too many plugins, which ones help", or any time someone is overwhelmed by skill choice and wants help narrowing it down interactively. Hands off to customizing-skills when the user wants to tune the chosen skill rather than adopt it as-is.
+description: Use when the user wants to find, discover, choose, compare, recommend, adopt, or install a Claude coding-agent skill or plugin but isn't sure which one fits — phrases like "is there a skill for X", "what skill should I use", "find me a skill/plugin", "recommend a skill for my workflow", "I have too many plugins, which ones help", or any time someone is overwhelmed by skill choice and wants help narrowing it down interactively. Also covers decomposing a feature into capabilities and finding small unit skills (local first) to compose rather than one do-everything skill. Hands off to customizing-skills when the user wants to compose or tune the chosen skill(s) rather than adopt as-is.
 ---
 
 # Finding Skills
@@ -12,20 +12,31 @@ no longer *building* one — it's **choosing** the right one for a given person.
 There's no universally correct skill; the effective set depends on the user's
 own taste, skill level, and workflow. This skill is a **matchmaker**: the user
 says roughly what they want, you search the available pool, narrow it down *with
-them* through interactive choices, and land on a skill to adopt.
+them* through interactive choices, and land on what to adopt.
+
+**A feature is rarely one skill.** Before hunting for a single skill that does
+everything, decompose the need into capabilities and look for small **unit
+skills** — local ones first — that each cover a part. Often the best answer is a
+*set* of units composed together, not one monolith. Composing well-maintained
+units (kept as-is, glued by a thin overlay) keeps the whole thing light and lets
+each unit keep its **upstream updates** — forking one big skill severs that. So
+search for units to compose first; fall back to a single skill only when the
+capability really is atomic.
 
 **Core principle:** you are a guide, not an oracle. Never silently pick "the
 best" skill. Surface real candidates with honest trade-offs and let the user
 steer at each fork. The branching *is* the product.
 
-**The loop:** `Clarify intent → Gather candidates → Narrow interactively →
-Adopt / refine / hand off`. Candidates come from any source (including ones the
-user brings in) — getting them is the cheap part; the narrowing and hand-off are
-the value. Loop back any time — narrowing too far with nothing good means
-widening the pool.
+**The loop:** `Clarify intent → Decompose into capabilities → Gather unit-skill
+candidates → Narrow interactively → Adopt / compose / refine / hand off`.
+Candidates come from any source (including ones the user brings in) — getting
+them is the cheap part; the narrowing and hand-off are the value. Loop back any
+time — narrowing too far with nothing good means widening the pool.
 
-This is the discovery half of `hyper-skills-creator`. When the chosen skill is a
-good base but needs tuning, **hand off to the `customizing-skills` skill**.
+This is the discovery half of `hyper-skills-creator`. When the chosen skill (or
+set of units) is a good base but needs tuning or wiring together, **hand off to
+the `customizing-skills` skill**, which leads with composing units under a thin
+overlay.
 
 ## When to Use
 
@@ -38,7 +49,7 @@ good base but needs tuning, **hand off to the `customizing-skills` skill**.
 authoring a brand-new skill from a blank page (`skill-creator` /
 `superpowers:writing-skills`).
 
-## Step 1 — Clarify intent
+## Step 1 — Clarify intent, then decompose into capabilities
 
 Don't search on a vague request. Get just enough to query well. If the user was
 specific ("postgres query tuning skill"), skip ahead. If vague ("I want a good
@@ -52,6 +63,14 @@ Use `AskUserQuestion` with 2–4 of these (plus the user's own free-text "Other"
 to fix a direction before searching. Capture: the *task*, the *stack/tools*
 involved, and whether they want a single skill or a whole workflow set.
 
+**Then decompose.** Before searching, break the stated need into the
+capabilities it actually requires — "set up a TDD workflow" is really *clarify
+the spec* + *write tests first* + *run/verify*. Each capability becomes its own
+search. A need that splits into 2–4 capabilities is a strong signal to look for
+**unit skills to compose** rather than one do-everything skill. If the need is
+genuinely atomic, it's a single search — don't manufacture parts that aren't
+there.
+
 Ask only what you need *to search well* — one question is usually enough here.
 The real narrowing happens at Step 3 once there are concrete candidates on the
 table, so don't front-load every decision.
@@ -63,6 +82,13 @@ and several community searchers all do it, some over live directories. **Don't
 compete on search.** This skill's value is the *interactive narrowing and the
 hand-off to customization* (Steps 3–4), so treat search as a thin, swappable
 input layer: get a decent shortlist by whatever path is cheapest, then move on.
+
+**Search per capability, local first.** If Step 1 split the need into parts, run
+a search for each part and keep a small shortlist *per capability* — you're
+assembling a set, not crowning one winner. Start with what's already on disk
+(local skills and the cached catalog; `--skills-only` ranks individual units): a
+unit the user already has composes for free and is the lightest possible answer.
+Only widen to live/web sources for the capabilities nothing local covers.
 
 Candidates can come from **any** of these — use the first that yields a strong
 shortlist, and freely accept results the user already gathered elsewhere:
@@ -128,8 +154,9 @@ the right action is situational, so let the user pick:**
 
 | Action | What happens | When it fits |
 |--------|--------------|--------------|
-| **Adopt as-is** | Install/enable the plugin or skill unchanged | The skill already fits; user just wants it on |
-| **Customize** | Hand off to `customizing-skills` | Good base, wrong defaults |
+| **Adopt as-is** | Install/enable the skill(s) unchanged | A single skill — or a set of units that already work side by side — fits; user just wants them on |
+| **Compose** | Hand off to `customizing-skills` to wire several units under a thin overlay | The need spans 2+ unit skills that should act as one workflow |
+| **Customize** | Hand off to `customizing-skills` | Good single base, wrong defaults |
 | **Refine / keep looking** | Back to Step 2/3 | Not quite right |
 
 For **Adopt**: install via the marketplace, or for a single skill copy it into
@@ -139,22 +166,26 @@ adopting, a quick trigger check is worthwhile: fire 1–2 realistic sentences an
 confirm it activates (the `customizing-skills` skill's `verify` reference has
 deeper options if wanted).
 
-For **Customize**: hand the chosen candidate to the **`customizing-skills`**
-skill, which owns the tuning modes (fork & edit / preference overlay / synthesize)
-and verification. Pass along what you learned: the candidate, why it's close, and
-any stack/preference cues the user already gave.
+For **Compose / Customize**: hand the chosen candidate(s) to the
+**`customizing-skills`** skill. It leads with **composing units under a thin
+overlay** (units stay as-is, upstream keeps flowing), then preference overlay,
+synthesize, and — only as a last resort — fork & edit. Pass along what you
+learned: the unit skills picked and what each covers, why they're close, and any
+stack/preference cues the user already gave.
 
 ## Quick Reference
 
 ```
+intent ─▶ decompose into capabilities ─▶ (one search per capability)
         BYO candidates ──┐
-intent ─ local catalog ──┼─▶ [shortlist] ──▶ AskUserQuestion (narrow)
-   ▲     live CLI / web ──┘        │                   │
-   └── widen ◀────────────────────┘            chosen candidate
+        local first ─────┼─▶ [shortlist(s)] ──▶ AskUserQuestion (narrow)
+   ▲    live CLI / web ──┘        │                   │
+   └── widen ◀────────────────────┘          chosen skill / unit set
                                                        │
-                            ┌── adopt ──────── install / copy to ~/.claude/skills
-        action choice ──────┼── customize ── → customizing-skills
-                            └── refine ─────── back to candidates
+                  ┌── adopt as-is ─── install / copy to ~/.claude/skills
+   action ────────┼── compose ─────── → customizing-skills (overlay glue)
+                  ├── customize ───── → customizing-skills
+                  └── refine ──────── back to candidates
 ```
 
 ## Example
@@ -169,6 +200,11 @@ one-step adopt-as-is case, see `EXAMPLES.md` at the plugin root.
 
 - **Auto-picking the top result.** Defeats the purpose. Always present choices;
   the user's taste is the deciding input, not your ranking.
+- **Forcing one skill to do everything.** If the need splits into capabilities,
+  look for unit skills to compose rather than a single do-everything skill —
+  composing keeps the skillset lighter and preserves each unit's upstream.
+- **Skipping local.** A unit the user already has on disk is the cheapest,
+  lightest match and composes for free — search on-disk before going to the web.
 - **Ignoring token cost.** A skill's `description` is always in context. A bloaty
   always-on cost is a real downside — surface it.
 - **Installing without confirming provenance.** Marketplace and especially web

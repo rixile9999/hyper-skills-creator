@@ -1,31 +1,38 @@
 ---
 name: customizing-skills
-description: Use when the user has an existing Claude coding-agent skill or plugin and wants to adapt, tune, customize, personalize, or tailor it to their own stack, conventions, taste, or workflow — phrases like "tune this skill to how I work", "customize this skill for my React+Postgres setup", "make this skill match my style", "fork and edit this skill", or "combine the good parts of these skills into one". Receives hand-offs from finding-skills once a base skill is chosen.
+description: Use when the user has an existing Claude coding-agent skill or plugin and wants to adapt, tune, customize, personalize, or tailor it to their own stack, conventions, taste, or workflow — phrases like "tune this skill to how I work", "customize this skill for my React+Postgres setup", "make this skill match my style", "fork and edit this skill", "wire these unit skills into one workflow", or "combine the good parts of these skills into one". Leads with composing unit skills under a thin overlay (upstream-safe) before forking. Receives hand-offs from finding-skills once a base skill — or a set of unit skills — is chosen.
 ---
 
 # Customizing Skills
 
 ## Overview
 
-A chosen skill is rarely a perfect fit out of the box — its defaults assume some
-stack, some conventions, some level of rigor. This skill adapts an existing skill
-to the user, and verifies the result. It's the customization half of
-`hyper-skills-creator`; it usually receives a hand-off from `finding-skills`, but
-also triggers directly when the user already has a skill in mind to tune.
+A chosen skill is rarely a perfect fit out of the box — and a whole capability is
+rarely one skill at all. This skill adapts existing skills to the user: most
+often by **composing several unit skills under a thin overlay** you own, and
+sometimes by tuning a single base. Then it verifies the result. It's the
+customization half of `hyper-skills-creator`; it usually receives a hand-off from
+`finding-skills` (often with a *set* of unit skills, not just one), but also
+triggers directly when the user already has skill(s) in mind to tune.
 
-**Core principle:** the *mode* of customization is situational, so let the user
-pick — don't assume. The same goes for how rigorously to verify. Present real
-choices and recommend a default based on what you see.
+**Core principle:** keep the upstream link alive. Prefer non-destructive moves —
+**compose units with an overlay**, or layer preferences on top — so each skill
+keeps receiving its upstream updates and your skillset stays light. Forking a
+skill's body is the *last resort*: it severs upstream and you own it forever.
+Beyond that, the *mode* is situational — present real choices and recommend a
+default based on what you see.
 
-**The loop:** `Capture preferences → Choose a mode (fork / overlay / synthesize)
-→ Apply → Choose a verify level → Verify`.
+**The loop:** `Capture preferences → Choose a mode (compose / overlay /
+synthesize / fork) → Apply → Choose a verify level → Verify`.
 
 ## When to Use
 
 - "Take <skill> and tune it to how I like to work."
 - "Customize this skill for my stack / conventions / style."
+- "Wire these unit skills together into one <feature> workflow."
 - "Combine the best parts of these skills into one for me."
-- A hand-off from `finding-skills` after the user chose a base skill to adapt.
+- A hand-off from `finding-skills` after the user chose a base skill — or a set
+  of unit skills — to adapt.
 
 **Not for:** discovering which skill to start from (use `finding-skills`).
 
@@ -44,15 +51,18 @@ Save durable, cross-project preferences to memory so future runs start from them
 
 ## Step 2 — Choose a customization mode
 
-Present these three as a choice (`AskUserQuestion`) — situational, so the user
-picks. Recommend a default from what you saw: good base / wrong defaults →
-overlay; want deep changes → fork; pieces from several skills → synthesize.
+Present these as a choice (`AskUserQuestion`) — situational, so the user picks.
+They're ordered by how well they preserve upstream updates; recommend the
+highest one that fits. Default from what you saw: a need spanning several unit
+skills → **compose**; one good base with wrong defaults → overlay; a capability
+no existing skill covers → synthesize; deep changes to a skill's body → fork.
 
 | Mode | What it produces | Trade-off |
 |------|------------------|-----------|
-| **Fork & edit** | A copy in `~/.claude/skills/<name>/` you edit freely | Full control; you own maintenance, lose upstream updates |
-| **Preference overlay** | A thin companion skill or project `CLAUDE.md` notes layered on top | Non-destructive; survives upstream updates |
-| **Synthesize new** | One user-specific skill cherry-picked from several | Heaviest; a new skill to maintain |
+| **Compose (overlay glue)** | A thin orchestration overlay in `~/.claude/skills/<feature>/` that sequences several unit skills, each kept as-is | Lightest; **every unit keeps its upstream** — you maintain only the glue |
+| **Preference overlay** | A thin companion skill or project `CLAUDE.md` notes layered on one base | Non-destructive; survives upstream updates |
+| **Synthesize new** | One user-specific skill cherry-picked from several | Heavier; a new skill to maintain — use when no unit covers a capability |
+| **Fork & edit** | A copy in `~/.claude/skills/<name>/` you edit freely | **Last resort:** full control but severs upstream; you own maintenance forever |
 
 **Full instructions for each mode:** read `references/customize.md`.
 
@@ -78,9 +88,10 @@ eval:
 ## Quick Reference
 
 ```
-preferences ──▶ mode choice ──┬── fork & edit ──── copy to ~/.claude/skills + edit
-                              ├── overlay ──────── companion skill / CLAUDE.md
-                              └── synthesize ───── → skill-creator / writing-skills
+preferences ──▶ mode choice ──┬── compose ─────── overlay glue over unit skills (upstream-safe)
+                              ├── overlay ──────── companion skill / CLAUDE.md (upstream-safe)
+                              ├── synthesize ───── → skill-creator / writing-skills
+                              └── fork & edit ──── copy + edit (last resort, severs upstream)
                                        │
                           verify choice ── light │ formal eval │ none
 ```
@@ -94,8 +105,12 @@ TypeScript/vitest user — see `EXAMPLES.md` at the plugin root.
 
 ## Common Mistakes
 
-- **Assuming the mode.** The user picks fork vs overlay vs synthesize — it's a
-  real trade-off, not a default you choose silently.
+- **Assuming the mode.** The user picks compose vs overlay vs synthesize vs fork
+  — it's a real trade-off, not a default you choose silently.
+- **Forking when you could compose.** Forking a monolith severs upstream and
+  makes the skillset heavier. If the need is several capabilities, compose unit
+  skills under a thin overlay first; reserve fork for deep edits to one skill's
+  body that an overlay genuinely can't express.
 - **Editing an installed skill in place.** Read-only / overwritten on update.
   Copy to `~/.claude/skills/` first.
 - **Over-fitting to one example.** Bake in the user's *general* preferences, not

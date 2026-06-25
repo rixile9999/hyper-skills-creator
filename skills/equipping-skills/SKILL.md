@@ -86,7 +86,8 @@ this if you want it later") is enough — don't open a menu.
 ## Step 3 — Hand off, then resume
 
 On a yes, hand the gap to **`finding-skills`** as if the user had asked for that
-skill — but carry the context so they don't re-explain:
+skill — it will decompose the need and may compose several unit skills (local
+first) to fill it. Carry the context so they don't re-explain:
 
 - the **task** you're in the middle of and what capability it needs,
 - the **stack/tools** already visible in the repo and conversation,

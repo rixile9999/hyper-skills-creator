@@ -9,6 +9,12 @@ directories. This skill's value is the narrowing and the hand-off to
 customization, so get a shortlist by whatever path is cheapest and move on.
 The sources below are listed in order of "cheapest first," but any one is fine.
 
+**Composing? Search per capability, local first.** When the need decomposed into
+parts (finding-skills Step 1), run one search per part and keep a shortlist for
+each — you're assembling a set to compose, not crowning one winner. Lead with
+what's already on disk: a unit the user already has composes for free and is the
+lightest answer. `--skills-only` ranks individual units rather than whole plugins.
+
 ## 0. BYO candidates (preferred when the user already has some)
 
 If the user already ran another discovery tool, or has names/URLs from a

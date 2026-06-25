@@ -12,18 +12,21 @@ including the architecture and the architectural principles it must uphold — a
 written somewhere concrete. Only then do I want to build it TDD-style. Make me a
 skillset for that, tuned to my stack (TypeScript + vitest, concise commits)."*
 
-This is a **skillset** request — two skills working as a sequence with a written
-artifact in between — so it runs through both halves of the plugin:
-`finding-skills` to source the pieces, then `customizing-skills` to wire them
-into a customized set.
+This is a **composition** request — two unit skills working as a sequence with a
+written artifact in between — so it runs through both halves of the plugin:
+`finding-skills` decomposes the need and sources the unit skills, then
+`customizing-skills` composes them under a thin overlay. The units stay as-is
+(and keep their upstream updates); only the glue is ours.
 
 ### finding-skills
 
-**Step 1 — Clarify intent.** Already specific: two phases — (a) spec +
-architecture clarification, captured to a doc; (b) TDD implementation; stack
-TS/vitest. No clarifying question needed — search directly.
+**Step 1 — Clarify intent, then decompose.** Already specific, and it decomposes
+cleanly into two capabilities — (a) spec + architecture clarification, captured
+to a doc; (b) TDD implementation; stack TS/vitest. Two capabilities → look for
+two unit skills to compose, not one do-everything skill. No clarifying question
+needed — search directly.
 
-**Step 2 — Search the pool.** Two intents → two searches.
+**Step 2 — Search the pool, per capability.** Two capabilities → two searches.
 
 ```bash
 python3 skills/finding-skills/scripts/search_catalog.py "test driven development TDD" --limit 4
@@ -53,10 +56,10 @@ python3 skills/finding-skills/scripts/search_catalog.py "architecture spec desig
 
 User picks **grill-me + test-driven-development**.
 
-**Step 4 — Action.** Combining two skills into a tuned sequence = customize.
+**Step 4 — Action.** Wiring two unit skills into one workflow = compose.
 
 > **AskUserQuestion — "이 둘을 어떻게 할까요?"**
-> - **개인화 (추천)**: 두 스킬을 채택하고, "스펙 명확화 → 문서화 → TDD" 순서로 엮는 스킬셋 구성. → `customizing-skills`로 인계.
+> - **조합 (Compose) (추천)**: 두 단위 스킬을 채택하고, "스펙 명확화 → 문서화 → TDD" 순서로 엮는 얇은 오버레이 구성. → `customizing-skills`로 인계. 원본은 그대로 → 업스트림 유지.
 > - 그대로 둘 다 설치: 순서·문서화 없이 각각.
 > - 더 찾아보기.
 
@@ -81,9 +84,9 @@ feature at once. (Save as durable memory for future runs.)
 **Step 2 — Choose a mode.**
 
 > **AskUserQuestion — "스킬셋을 어떻게 구성할까요?"**
-> - **Preference overlay — (추천)**: grill-me·TDD 원본은 그대로 두고(둘 다 활발히 유지됨), 둘을 "스펙 명확화 → 문서화 → TDD" 순서로 엮고 내 스택을 주입하는 얇은 컴패니언 스킬 `spec-then-tdd`를 새로 만듦. 비파괴적, 업스트림 업데이트 유지.
-> - Fork & edit: TDD 스킬 본문을 복사해 vitest·아키텍처 가드 예시를 깊게 박음 — 더 무겁고 업스트림을 잃음.
-> - Synthesize new: 둘을 통째로 합친 단일 스킬 — 가장 무거움.
+> - **Compose (오버레이 글루) — (추천)**: grill-me·TDD 단위 스킬은 그대로 두고(둘 다 활발히 유지됨), 둘을 "스펙 명확화 → 문서화 → TDD" 순서로 엮고 내 스택을 주입하는 얇은 오케스트레이션 오버레이 `spec-then-tdd`를 새로 만듦. 가장 가벼움 — 각 단위는 업스트림 업데이트 유지, 나는 글루만 유지보수.
+> - Synthesize new: 둘을 통째로 합친 단일 스킬 — 더 무겁고, 합칠 단위가 없을 때 쓰는 길.
+> - Fork & edit: TDD 스킬 본문을 복사해 vitest·아키텍처 가드 예시를 깊게 박음 — 최후 수단, 더 무겁고 업스트림을 잃음.
 
 User picks **overlay**. But the user also wants to change *how TDD itself runs*,
 so customize the implementation phase too:

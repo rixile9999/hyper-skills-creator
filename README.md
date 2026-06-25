@@ -32,13 +32,29 @@ and taste. This plugin is built for exactly that loop: not a one-time setup, but
 a recurring "is my skillset still the right fit?" pass you can run whenever the
 ground shifts under you.
 
+## How it stays light: compose, don't fork
+
+The strategy is borrowed straight from the **Unix philosophy** — *do one thing
+well, and write programs that work together*. Swap "programs" for "skills":
+prefer small, single-purpose **unit skills** and pipe them together rather than
+building one monolith that does everything.
+
+So a capability is rarely treated as one skill. Rather than forking a big skill
+and inheriting its maintenance, this plugin **decomposes the need** into the
+capabilities it actually requires, finds small unit skills for each part (the
+ones already on disk first), and **wires them together with a thin overlay you
+own**. The units stay as-is and keep their upstream updates; you maintain only
+the glue. Forking a skill's body is the *last resort* — reserved for deep edits
+a thin overlay genuinely can't express, since it severs the upstream link and
+makes your skillset heavier. Compose first, fork last.
+
 ## One entry skill + three sub-skills
 
 | Skill | Does | Triggers on |
 |-------|------|-------------|
 | **hyper-skills-creator** | the front door — route a vague request, then compose the sub-skills end-to-end | "help me sort out my skills", "find a skill **and** make it mine", anything spanning both halves |
-| **finding-skills** | search the pool → narrow interactively → adopt/install | "is there a skill for X", "what should I use", "recommend a skill" |
-| **customizing-skills** | tune a chosen skill → verify | "tune this skill to how I work", "customize for my stack" |
+| **finding-skills** | decompose the need → search unit skills (local first) → narrow interactively → adopt/compose | "is there a skill for X", "what should I use", "recommend a skill" |
+| **customizing-skills** | compose units under a thin overlay / tune a base → verify | "tune this skill to how I work", "wire these into one workflow", "customize for my stack" |
 | **equipping-skills** | *self-triggered* mid-task — spot a skill gap, propose, hand off to finding-skills, resume | your own realization while building something else; or the `/equip-skill` command |
 
 The first three compose around **user-initiated** requests: the
@@ -73,10 +89,11 @@ equipping-skills:      mid-task gap → propose (one line) → on yes ─┐
    (agent-initiated)         ▲                                     │
                              └────── resume original task ◀──── finding-skills ─▶ …
 
-finding-skills:  clarify intent → search pool → narrow interactively
-                   → adopt-as-is │ refine │ ──hand off──▶ customizing-skills
+finding-skills:  clarify intent → decompose into capabilities
+                   → search unit skills (local first) → narrow interactively
+                   → adopt-as-is │ compose │ refine │ ──hand off──▶ customizing-skills
 
-customizing-skills:  capture prefs → mode (fork│overlay│synthesize)
+customizing-skills:  capture prefs → mode (compose│overlay│synthesize│fork)
                         → apply → verify (light│formal eval│none)
 ```
 
@@ -84,7 +101,9 @@ customizing-skills:  capture prefs → mode (fork│overlay│synthesize)
   cache + live `claude plugin` CLI), web search for community skills, or
   candidates you bring in from another searcher (`skillless`, `find-skills`, …).
   Search is a swappable input — the value is the narrowing + customization.
-- **Customize** = your choice of fork-&-edit · preference overlay · synthesize.
+- **Customize** = your choice, ordered by how well it preserves upstream:
+  compose units under a thin overlay (default, upstream-safe) · preference
+  overlay · synthesize · fork-&-edit (last resort, severs upstream).
 - **Verify** = your choice of lightweight check · formal skill-creator eval · none.
 
 Every fork is a choice you make — the branching is the point.
